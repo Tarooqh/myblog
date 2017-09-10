@@ -1,15 +1,20 @@
 {% extends "base.html" %}
 
+
+{% block head_title %}
+{{instance.title}} | {{block.super}}
+{% endblock head_title %}
+
+
 {% block content%}
 
-<div> <h1> {{ instance.title }}</h1></div>
-<div>
-    {{ instance.id }}<br/>
-    <a href = '#'  >{{ instance.title }}<br/></a>
+<div class="col-sm-7 col-sm-offset-4">
+    <h1> {{ instance.title }} <small>{{instance.timestamp}}</small> </h1>
+
+    {{ instance.title }}<br/>
     {{ instance.content }}<br/>
     {{ instance.updated }}<br/>
-    {{ instance.timestamp }}<br/>
-    {{ instance.status }}<br/>
+
 
 </div>
 
