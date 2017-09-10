@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block content%}
+
+<div> <h1> {{ instance.title }}</h1></div>
+<div>
+    {{ instance.id }}<br/>
+    <a href = '#'  >{{ instance.title }}<br/></a>
+    {{ instance.content }}<br/>
+    {{ instance.updated }}<br/>
+    {{ instance.timestamp }}<br/>
+    {{ instance.status }}<br/>
+
+</div>
+
+{% endblock content%}

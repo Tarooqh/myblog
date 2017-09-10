@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Index</title>
+</head>
+<body>
+<h1>{{ title }} is working!!</h1>
+
+
+<div>
+
+
+    {%for i in objectlist%}
+    <p>
+     <h2> {{ i.pk }}</h2>
+
+#{% url "posts:retrieve" id=i.id %}
+    <a href='{{i.get_absolute_url}}'>  {{ i.title }} </a>
+
+     {{ i.content }}<br/>
+     <h6>{{ i.updated }}</h6>
+     <h6> {{ i.timestamp }}</h6>
+     </p>
+
+    {%endfor%}
+
+</div>
+
+</body>
+</html>

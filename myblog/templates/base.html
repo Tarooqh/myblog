@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+
+    <title>{% block head%}My Blog {% endblock %}</title>
+</head>
+<body>
+
+
+{% if messages %}
+<div class="messages">
+<ul class="messages">
+    {% for message in messages%}
+    <li{%if message.tags%} class = "{{message.tags}} {%endif%} > {%if "html_safe" in message.tags%}
+    {{message|safe}} {%else%} {{ message}} {%endif%} </li>
+    {%endfor%}
+
+</ul>
+    </div>
+{%endif%}
+
+
+
+<div class="container">
+{% block content %}
+
+    {%for i in objectlist%}
+    <p>
+     <h2> {{ i.pk }}</h2>
+
+#{% url "posts:retrieve" id=i.id %}
+    <a href='{{i.get_absolute_url}}'>  {{ i.title }} </a>
+
+     {{ i.content }}<br/>
+     <h6>{{ i.updated }}</h6>
+     <h6> {{ i.timestamp }}</h6>
+     </p>
+
+    {%endfor%}
+
+{%endblock content%}
+</div>
+
+
+
+
+
+
+
+
+</body>
+</html>
