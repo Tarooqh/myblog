@@ -1,3 +1,13 @@
+try:
+    from urllib import quote_plus #python 2
+except:
+    pass
+
+try:
+    from urllib.parse import quote_plus #python 3
+except:
+    pass
+
 from django.contrib import messages
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404, get_list_or_404, redirect
@@ -7,12 +17,14 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.shortcuts import render
 
 from .models import posts
+
+
 # Create your views here.
 queryset = posts.objects.all()
 
 
 def posts_create(request):
-    form = PostForm(request.POST or None)
+    form = PostForm(request.POST or None, request.FILES or None)
     if form.is_valid():
         instance = form.save(commit=False)
         instance.save()
@@ -29,11 +41,12 @@ def posts_create(request):
 
 def posts_retrieve(request, id=None):
     instance = get_object_or_404(posts, id = id)
-
+    share_string = quote_plus(instance.content)
     context = {
         "objectlist":queryset,
         'title':'detail',
         "instance": instance,
+        "share_string":share_string
     }
     return render(request, "detail.html", context)
 
