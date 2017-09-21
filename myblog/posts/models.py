@@ -5,6 +5,8 @@ from django.db.models.signals import pre_save
 from django.utils.text import slugify
 from django.conf import settings
 from django.utils import timezone
+from django.utils.safestring import mark_safe
+from markdown_deux import markdown
 
 # Create your models here.
 # model view controller - MVC
@@ -63,6 +65,11 @@ class posts(models.Model):
     def get_absolute_url(self):
        # return "posts/%s" %self.id
         return reverse("posts:retrieve", kwargs={"id": self.id})
+
+
+    def get_markdown(self):
+        content = self.content
+        return mark_safe(markdown(content))
 
     class Meta:
         ordering = ["-timestamp", "-updated"]

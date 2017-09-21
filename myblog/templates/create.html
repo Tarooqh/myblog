@@ -1,9 +1,14 @@
 {% extends "base.html" %}
 {% load staticfiles %}
 
+{% block head_extra%}
+{{form.media}}
+{% endblock head_extra%}
+
+
 {% block content%}
 
-<div class="col-sm-6 col-sm-offset-3">
+<div class="col-sm-11 col-sm-offset-1">
  <h1>Form</h1>
 
 <form method="POST" action="" enctype="multipart/form-data">

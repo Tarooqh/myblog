@@ -3,7 +3,7 @@
 {% block content%}
 
 
-<div class="col-sm-6 col-sm-offset-3">
+<div class='col-sm-11 col-sm-offset-0'>
 <h1>{{ title }} is working!!</h1>
 
 
@@ -22,9 +22,11 @@
             {%if i.image%}
              <img src="{{i.image.url}}" class="img-responsive"/>
             {%endif%}
-            <div class="caption">
-            <h3><a href='{{i.get_absolute_url}}'>  {{ i.title }} </a><small>{{i.timestamp|timesince}} ago</small></h3>
-            <p>{{ i.content |linebreaks |truncatechars:120 }}</p>
+            <div class="caption post-detail-item">
+                 {% if obj.draft %}<h3>Staff only: Draft</h3>{% endif %} {% if obj.publish > today %}<h3>Staff Only: Future Post</h3>{% endif %}
+            <h3><a href='{{i.get_absolute_url}}'>  {{ i.title }} </a><small>{{ obj.publish }}</small></h3></h3>
+
+                <p class="">{{ i.get_markdown|truncatewords_html:20}}</p>
             <p> <a href="{{i.get_absolute_url}}" class="btn btn-primary" role="button">View </a>  </p>
             </div>
         </div>
