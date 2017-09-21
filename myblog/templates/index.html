@@ -25,27 +25,28 @@
             <div class="caption">
             <h3><a href='{{i.get_absolute_url}}'>  {{ i.title }} </a><small>{{i.timestamp|timesince}} ago</small></h3>
             <p>{{ i.content |linebreaks |truncatechars:120 }}</p>
-            <p> <a href="#" class="btn btn-primary" role="button">View </a>  </p>
+            <p> <a href="{{i.get_absolute_url}}" class="btn btn-primary" role="button">View </a>  </p>
             </div>
         </div>
     </div>
     <hr/>
  </div>
+    <hr>
 {%endfor%}
 
 
 <div class="pagination">
     <span class="step-links">
         {% if objectlist.has_previous %}
-            <a href="?{{page_request_var}}={{ contacts.previous_page_number }} {% if request.GET.q %}&q={{ request.GET.q }}">previous</a>
+            <a href="?{{page_request_var}}={{ objectlist.previous_page_number }} {% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">previous</a>
         {% endif %}
 
         <span class="current">
             Page {{ objectlist.number }} of {{ objectlist.paginator.num_pages }}.
         </span>
 
-        {% if contacts.has_next %}
-            <a href="?{{page_request_var}}={{ contacts.next_page_number }}">next</a>
+        {% if objectlist.has_next %}
+            <a href="?{{page_request_var}}={{ objectlist.next_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">next</a>
         {% endif %}
     </span>
     </div>
@@ -54,3 +55,5 @@
 
 
 {% endblock content %}
+
+

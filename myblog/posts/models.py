@@ -3,6 +3,8 @@ from django.db import models
 from django.core.urlresolvers import reverse
 from django.db.models.signals import pre_save
 from django.utils.text import slugify
+from django.conf import settings
+from django.utils import timezone
 
 # Create your models here.
 # model view controller - MVC
@@ -12,6 +14,10 @@ STATUS_CHOICES = (
     ('p', 'Published'),
     ('w', 'Withdrawn'),
 )
+
+class PostManager(models.Manager):
+    def active(self, *args, **kwargs):
+        return super(PostManager, self).filter(draft=False).filter(publish__lte=timezone.now())
 
 
 def upload_location(instance, filename):
@@ -28,6 +34,7 @@ def upload_location(instance, filename):
 
 
 class posts(models.Model):
+    user= models.ForeignKey(settings.AUTH_USER_MODEL, default=1)
     title = models.CharField(max_length=500)
     slug=models.SlugField(unique=True)
     image = models.ImageField(upload_to=upload_location,
@@ -36,9 +43,16 @@ class posts(models.Model):
     height_field = models.IntegerField(default=0)
     width_field = models.IntegerField(default=0)
     content = models.TextField()
+    draft = models.BooleanField(default=False)
+    publish= models.DateField(auto_now=False, auto_now_add=False)
     timestamp = models.DateTimeField(auto_now=False, auto_now_add=True, auto_created= True)
     updated = models.DateTimeField(auto_now=True, auto_now_add=False)
     status = models.CharField(max_length=1, choices=STATUS_CHOICES, default='d')
+
+
+
+    objects = PostManager()
+
 
     def __unicode__(self):
         return self.title
